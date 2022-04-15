@@ -311,13 +311,14 @@ class _LoginState extends State<Login> {
                                                                         } else {
                                                                           print(
                                                                               user);
-                                                                          EasyLoading
-                                                                              .dismiss();
+
                                                                           Navigator.push(
                                                                               context,
                                                                               MaterialPageRoute(builder: (context) => Nav()));
                                                                           // print(user
                                                                           //     .email);
+                                                                          EasyLoading
+                                                                              .dismiss();
                                                                         }
                                                                       });
                                                                     } on FirebaseAuthException catch (e) {
