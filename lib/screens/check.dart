@@ -1298,36 +1298,13 @@
 //   }
 // }
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize a new Firebase App instance
-  await Firebase.initializeApp();
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // Remove the debug banner
-      debugShowCheckedModeBanner: false,
-      title: 'Kindacode.com',
-      theme: ThemeData(primarySwatch: Colors.green),
-      home: const HomePage(),
-    );
-  }
-}
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -1387,11 +1364,12 @@ class _HomePageState extends State<HomePage> {
 
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
+      print(fileUrl);
       final FullMetadata fileMeta = await file.getMetadata();
       files.add({
         "url": fileUrl,
         "path": file.fullPath,
-        "uploaded_by": fileMeta.customMetadata?['uploaded_by'] ?? 'Nobody',
+        "uploaded_by": 'Nabeel Ali',
         "description":
             fileMeta.customMetadata?['description'] ?? 'No description'
       });
@@ -1407,6 +1385,8 @@ class _HomePageState extends State<HomePage> {
     // Rebuild the UI
     setState(() {});
   }
+
+  final bool check = true;
 
   @override
   Widget build(BuildContext context) {
@@ -1443,22 +1423,46 @@ class _HomePageState extends State<HomePage> {
                         final Map<String, dynamic> image =
                             snapshot.data![index];
 
-                        return Card(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: ListTile(
-                            dense: false,
-                            leading: Image.network(image['url']),
-                            title: Text(image['uploaded_by']),
-                            subtitle: Text(image['description']),
-                            trailing: IconButton(
-                              onPressed: () => _delete(image['path']),
-                              icon: const Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ),
+                        return InkWell(
+                          onTap: () {
+                            _upload('camera');
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Color(0xffBD00FF).withOpacity(0.2),
+                            radius: 50.0,
+                            child: CircleAvatar(
+                              radius: 48.0,
+                              child: CircleAvatar(
+                                  child: (check == true)
+                                      ? Image.network(image['url'])
+                                      : Text('Choose Image')
+                                  // : Image.asset('assets/images/my.png')
+
+                                  // child: (_image != null)
+                                  // ? Image.file(_image)
+                                  //:
+                                  // child: Image.asset('assets/images/my.png'),
+                                  ),
+                              backgroundColor: Colors.white,
                             ),
                           ),
                         );
+                        // return Card(
+                        //   margin: const EdgeInsets.symmetric(vertical: 10),
+                        //   child: ListTile(
+                        //     dense: false,
+                        //     leading: Image.network(image['url']),
+                        //     title: Text(image['uploaded_by']),
+                        //     subtitle: Text(image['description']),
+                        //     trailing: IconButton(
+                        //       onPressed: () => _delete(image['path']),
+                        //       icon: const Icon(
+                        //         Icons.delete,
+                        //         color: Colors.red,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // );
                       },
                     );
                   }

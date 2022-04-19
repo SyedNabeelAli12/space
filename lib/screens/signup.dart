@@ -171,6 +171,11 @@ class _SignupState extends State<Signup> {
                                                           value.isEmpty) {
                                                         return 'Enter Email';
                                                       }
+                                                      if (!RegExp(
+                                                              r'\S+@\S+\.\S+')
+                                                          .hasMatch(value)) {
+                                                        return "Please enter a valid email address";
+                                                      }
                                                       return null;
                                                     },
                                                   ),

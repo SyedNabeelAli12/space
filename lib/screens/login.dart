@@ -196,8 +196,17 @@ class _LoginState extends State<Login> {
                                                           value.isEmpty) {
                                                         return 'Enter Email';
                                                       }
+                                                      if (!RegExp(
+                                                              r'\S+@\S+\.\S+')
+                                                          .hasMatch(value)) {
+                                                        return "Please enter a valid email address";
+                                                      }
+
+                                                      // the email is valid
                                                       return null;
                                                     },
+                                                    //   return null;
+                                                    // },
                                                   ),
                                                 ),
                                                 Padding(
@@ -230,6 +239,10 @@ class _LoginState extends State<Login> {
                                                       if (value == null ||
                                                           value.isEmpty) {
                                                         return 'Enter Password';
+                                                      }
+                                                      if (value.trim().length <
+                                                          6) {
+                                                        return 'Password Incorrect! At least 6 characters in length';
                                                       }
                                                       return null;
                                                     },
