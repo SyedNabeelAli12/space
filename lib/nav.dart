@@ -1,6 +1,6 @@
 import 'dart:ui';
-
 import 'package:flooter/screens/check.dart';
+import 'package:flooter/screens/coinlist.dart';
 import 'package:flooter/screens/home.dart';
 import 'package:flooter/screens/profile.dart';
 import 'package:flooter/screens/search.dart';
@@ -43,10 +43,10 @@ class _NavState extends State<Nav> {
                 controller: pageController,
                 children: [
                   Home(),
-                  Profile(),
-                  HomePage(),
+                  SlideShow(),
+                  CoinLists(),
                   Search(),
-                  SlideShow()
+                  Profile()
                 ],
               ),
               bottomNavigationBar: GlassmorphicContainer(
@@ -88,22 +88,22 @@ class _NavState extends State<Nav> {
                                     label: 'Home'),
                                 BottomNavigationBarItem(
                                     backgroundColor: Colors.transparent,
-                                    icon: Icon(
-                                      Icons.supervised_user_circle,
-                                    ),
-                                    label: 'Profile'),
+                                    icon: Icon(Icons.notifications),
+                                    label: 'Notification'),
                                 BottomNavigationBarItem(
                                     backgroundColor: Colors.transparent,
-                                    icon: Icon(Icons.message),
-                                    label: 'Message'),
+                                    icon: Icon(Icons.currency_bitcoin_sharp),
+                                    label: 'Coins'),
                                 BottomNavigationBarItem(
                                     backgroundColor: Colors.transparent,
                                     icon: Icon(Icons.search),
                                     label: 'Search'),
                                 BottomNavigationBarItem(
                                     backgroundColor: Colors.transparent,
-                                    icon: Icon(Icons.notifications),
-                                    label: 'Notification')
+                                    icon: Icon(
+                                      Icons.supervised_user_circle,
+                                    ),
+                                    label: 'Profile'),
                               ],
                               unselectedItemColor: Colors.grey,
                               // unselectedFontSize: 18,
