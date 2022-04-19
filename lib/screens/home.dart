@@ -55,6 +55,14 @@ class _HomeState extends State<Home> {
     // });
   }
 
+  late var imageurl = '';
+  Future<String> getImage() async {
+    imageurl = auth!.photoURL!;
+    return imageurl;
+  }
+
+  var auth = FirebaseAuth.instance.currentUser;
+
   Widget _home() {
     print(users);
     if (users == false) {
@@ -81,18 +89,37 @@ class _HomeState extends State<Home> {
               child: Container(
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      maxRadius: 25,
-                      // backgroundImage: AssetImage("assets/images/my.png"),
-                      backgroundImage: NetworkImage(
-                          "https://firebasestorage.googleapis.com/v0/b/space-afdf1.appspot.com/o/scaled_d560f757-41a5-4a1f-997c-207afb9323894628600556992633123.jpg?alt=media&token=005fbc21-d923-43f1-8f85-1f925204440a"),
-
-                      // backgroundImage: Image.network('https://picsum.photos/250?image=9'),
-
-                      backgroundColor: Color(0xff63219D).withOpacity(0.4),
+                    FutureBuilder<String>(
+                      future:
+                          getImage(), // a previously-obtained Future<String> or null
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> snapshot) {
+                        if (snapshot.hasData) {
+                          return InkWell(
+                            onTap: () {},
+                            child: CircleAvatar(
+                              backgroundColor:
+                                  Color(0xffBD00FF).withOpacity(0.2),
+                              radius: 20.0,
+                              backgroundImage: NetworkImage(imageurl),
+                              // child: CircleAvatar(
+                              //   radius: 18.0,
+                              //   child: ClipOval(
+                              //       child: (imageurl == '')
+                              //           ? Text('Choose Image')
+                              //           : Image.network(imageurl)),
+                              //   backgroundColor: Colors.white,
+                              // ),
+                            ),
+                          );
+                        }
+                        return Container(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.26,
+                      width: MediaQuery.of(context).size.width * 0.28,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -101,7 +128,11 @@ class _HomeState extends State<Home> {
                               children: [
                                 Text(
                                   _username,
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              .028),
                                 ),
                               ],
                             ),
@@ -113,7 +144,11 @@ class _HomeState extends State<Home> {
                               children: [
                                 Text(
                                   _useremail,
-                                  style: TextStyle(color: Color(0xffC690FF)),
+                                  style: TextStyle(
+                                      color: Color(0xffC690FF),
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              .02),
                                 ),
                               ],
                             ),

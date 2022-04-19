@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flooter/firebaseapi.dart';
+
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flooter/screens/login.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -65,28 +65,6 @@ class _ProfileState extends State<Profile> {
       }
     }
   }
-
-  // Future<List<Map<String, dynamic>>> _loadImages() async {
-  //   List<Map<String, dynamic>> files = [];
-
-  //   final ListResult result = await storage.ref().list();
-  //   final List<Reference> allFiles = result.items;
-
-  //   await Future.forEach<Reference>(allFiles, (file) async {
-  //     final String fileUrl = await file.getDownloadURL();
-  //     print(fileUrl);
-  //     final FullMetadata fileMeta = await file.getMetadata();
-  //     files.add({
-  //       "url": fileUrl,
-  //       "path": file.fullPath,
-  //       "uploaded_by": fileMeta.customMetadata?['uploaded_by'] ?? 'Nobody',
-  //       "description":
-  //           fileMeta.customMetadata?['description'] ?? 'No description'
-  //     });
-  //   });
-
-  //   return files;
-  // }
 
   Widget _glassWidget(Container _container, size1, size2) {
     return Padding(
@@ -156,7 +134,7 @@ class _ProfileState extends State<Profile> {
             emailController.text = user.email!;
             nameController.text = user.displayName!;
             // phoneController.text = user.phoneNumber!;
-            imageurl = user.photoURL!;
+            // imageurl = user.photoURL!;
           });
           print(imageurl);
         }
@@ -164,54 +142,17 @@ class _ProfileState extends State<Profile> {
     }();
   }
 
-  // dynamic _pickImageError;
-  // XFile? imageFile = null;
-  // Future<void> _showChoiceDialog(BuildContext context) {
-  //   return showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text(
-  //             "Choose option",
-  //             style: TextStyle(color: Colors.blue),
-  //           ),
-  //           content: SingleChildScrollView(
-  //             child: ListBody(
-  //               children: [
-  //                 Divider(
-  //                   height: 1,
-  //                   color: Colors.blue,
-  //                 ),
-  //                 ListTile(
-  //                   onTap: () {
-  //                     _openGallery(context);
-  //                   },
-  //                   title: Text("Gallery"),
-  //                   leading: Icon(
-  //                     Icons.account_box,
-  //                     color: Colors.blue,
-  //                   ),
-  //                 ),
-  //                 Divider(
-  //                   height: 1,
-  //                   color: Colors.blue,
-  //                 ),
-  //                 ListTile(
-  //                   onTap: () {
-  //                     _openCamera(context);
-  //                   },
-  //                   title: Text("Camera"),
-  //                   leading: Icon(
-  //                     Icons.camera,
-  //                     color: Colors.blue,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
+  //   final Future<String> _calculation = Future<String>.delayed(
+  //   const Duration(seconds: 2),
+  //   () =>(auth!.photoURL!).toString(),
+  // );
+
+  Future<String> getImage() async {
+    imageurl = auth!.photoURL!;
+    return imageurl;
+  }
+
+  var auth = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -277,101 +218,116 @@ class _ProfileState extends State<Profile> {
                           SizedBox(
                             height: height * 0.04,
                           ),
+                          FutureBuilder<String>(
+                            future:
+                                getImage(), // a previously-obtained Future<String> or null
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> snapshot) {
+                              if (snapshot.hasData) {
+                                return InkWell(
+                                  onTap: () {
+                                    _upload('camera');
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor:
+                                        Color(0xffBD00FF).withOpacity(0.2),
+                                    radius: 50.0,
+                                    // child: CircleAvatar(
+                                    //   radius: 48.0,
+                                    //   child: ClipOval(
+                                    //       child: (imageurl == '')
+                                    //           ? Text('Choose Image')
+                                    //           : Image.network(imageurl)
+                                    //       // : Text('Choose Image')
+                                    //       // : Image.asset('assets/images/my.png')
+
+                                    //       // child: (_image != null)
+                                    //       // ? Image.file(_image)
+                                    //       //:
+                                    //       // child: Image.asset('assets/images/my.png'),
+                                    //       ),
+                                    //   backgroundColor: Colors.white,
+                                    // ),
+                                    backgroundImage: NetworkImage(imageurl),
+                                  ),
+                                );
+                              }
+                              return Container(
+                                child: CircularProgressIndicator(),
+                              );
+
+                              // List<Widget> children;
+                              // if (snapshot.hasData) {
+                              //   children = <Widget>[
+                              //     const Icon(
+                              //       Icons.check_circle_outline,
+                              //       color: Colors.green,
+                              //       size: 60,
+                              //     ),
+                              //     Padding(
+                              //       padding: const EdgeInsets.only(top: 16),
+                              //       child: Text('Result: ${snapshot.data}'),
+                              //     )
+                              //   ];
+                              // } else if (snapshot.hasError) {
+                              //   children = <Widget>[
+                              //     const Icon(
+                              //       Icons.error_outline,
+                              //       color: Colors.red,
+                              //       size: 60,
+                              //     ),
+                              //     Padding(
+                              //       padding: const EdgeInsets.only(top: 16),
+                              //       child: Text('Error: ${snapshot.error}'),
+                              //     )
+                              //   ];
+                              // } else {
+                              //   children = const <Widget>[
+                              //     SizedBox(
+                              //       width: 60,
+                              //       height: 60,
+                              //       child: CircularProgressIndicator(),
+                              //     ),
+                              //     Padding(
+                              //       padding: EdgeInsets.only(top: 16),
+                              //       child: Text('Awaiting result...'),
+                              //     )
+                              //   ];
+                              // }
+                            },
+                          ),
+
+                          // FutureBuilder(,builder: builder)
                           // InkWell(
                           //   onTap: () {
-                          //     _showChoiceDialog(context);
+                          //     _upload('camera');
                           //   },
-                          //   child: CircleAvatar(
-                          //     backgroundColor:
-                          //         Color(0xffBD00FF).withOpacity(0.2),
-                          //     radius: 50.0,
-                          //     child: CircleAvatar(
-                          //       radius: 48.0,
-                          //       child: ClipOval(
-                          //         child: (imageFile == null)
+                          //   child:
+
+                          // CircleAvatar(
+                          //   backgroundColor:
+                          //       Color(0xffBD00FF).withOpacity(0.2),
+                          //   radius: 50.0,
+                          //   child:
+
+                          //   CircleAvatar(
+                          //     radius: 48.0,
+                          //     child: ClipOval(
+                          //         child: (imageurl == '')
                           //             ? Text('Choose Image')
-                          //             : Image.file(
-                          //                 File(imageFile!.path),
-                          //               ),
+                          //             : Image.network(imageurl)
+                          //         // : Text('Choose Image')
                           //         // : Image.asset('assets/images/my.png')
 
                           //         // child: (_image != null)
                           //         // ? Image.file(_image)
                           //         //:
                           //         // child: Image.asset('assets/images/my.png'),
-                          //       ),
-                          //       backgroundColor: Colors.white,
-                          //     ),
+                          //         ),
+                          //     backgroundColor: Colors.white,
                           //   ),
                           // ),
-
-                          // Expanded(
-                          //   child: FutureBuilder(
-                          //     future: _loadImages(),
-                          //     builder: (context,
-                          //         AsyncSnapshot<List<Map<String, dynamic>>>
-                          //             snapshot) {
-                          //       if (snapshot.connectionState ==
-                          //           ConnectionState.done) {
-                          //         return ListView.builder(
-                          //           itemCount: snapshot.data?.length ?? 0,
-                          //           itemBuilder: (context, index) {
-                          //             final Map<String, dynamic> image =
-                          //                 snapshot.data![index];
-
-                          InkWell(
-                            onTap: () {
-                              _upload('camera');
-                            },
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  Color(0xffBD00FF).withOpacity(0.2),
-                              radius: 50.0,
-                              child: CircleAvatar(
-                                radius: 48.0,
-                                child: ClipOval(
-                                    child: (imageurl == '')
-                                        ? Text('Choose Image')
-                                        : Image.network(imageurl)
-                                    // : Text('Choose Image')
-                                    // : Image.asset('assets/images/my.png')
-
-                                    // child: (_image != null)
-                                    // ? Image.file(_image)
-                                    //:
-                                    // child: Image.asset('assets/images/my.png'),
-                                    ),
-                                backgroundColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                          // return Card(
-                          //   margin: const EdgeInsets.symmetric(vertical: 10),
-                          //   child: ListTile(
-                          //     dense: false,
-                          //     leading: Image.network(image['url']),
-                          //     title: Text(image['uploaded_by']),
-                          //     subtitle: Text(image['description']),
-                          //     trailing: IconButton(
-                          //       onPressed: () => _delete(image['path']),
-                          //       icon: const Icon(
-                          //         Icons.delete,
-                          //         color: Colors.red,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // );
-                          //           },
-                          //         );
-                          //       }
-
-                          //       return const Center(
-                          //         child: CircularProgressIndicator(),
-                          //       );
-                          //     },
-                          //   ),
                           // ),
-
                           Container(
                             width: MediaQuery.of(context).size.width - 100,
                             child: Text('Email',
@@ -523,33 +479,173 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
-
-  // void _openGallery(BuildContext context) async {
-  //   try {
-  //     final pickedFile = await ImagePicker().pickImage(
-  //         source: ImageSource.gallery,
-  //         maxWidth: MediaQuery.of(context).size.width / 6,
-  //         maxHeight: MediaQuery.of(context).size.height / 14);
-  //     setState(() {
-  //       imageFile = pickedFile!;
-  //     });
-
-  //     Navigator.pop(context);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // void _openCamera(BuildContext context) async {
-  //   try {
-  //     final pickedFile = await ImagePicker()
-  //         .pickImage(source: ImageSource.camera, maxWidth: 200, maxHeight: 200);
-  //     setState(() {
-  //       imageFile = pickedFile!;
-  //     });
-  //     Navigator.pop(context);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 }
+
+// void _openGallery(BuildContext context) async {
+//   try {
+//     final pickedFile = await ImagePicker().pickImage(
+//         source: ImageSource.gallery,
+//         maxWidth: MediaQuery.of(context).size.width / 6,
+//         maxHeight: MediaQuery.of(context).size.height / 14);
+//     setState(() {
+//       imageFile = pickedFile!;
+//     });
+
+//     Navigator.pop(context);
+//   } catch (e) {
+//     print(e);
+//   }
+// }
+
+// void _openCamera(BuildContext context) async {
+//   try {
+//     final pickedFile = await ImagePicker()
+//         .pickImage(source: ImageSource.camera, maxWidth: 200, maxHeight: 200);
+//     setState(() {
+//       imageFile = pickedFile!;
+//     });
+//     Navigator.pop(context);
+//   } catch (e) {
+//     print(e);
+//   }
+// }
+
+// dynamic _pickImageError;
+// XFile? imageFile = null;
+// Future<void> _showChoiceDialog(BuildContext context) {
+//   return showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text(
+//             "Choose option",
+//             style: TextStyle(color: Colors.blue),
+//           ),
+//           content: SingleChildScrollView(
+//             child: ListBody(
+//               children: [
+//                 Divider(
+//                   height: 1,
+//                   color: Colors.blue,
+//                 ),
+//                 ListTile(
+//                   onTap: () {
+//                     _openGallery(context);
+//                   },
+//                   title: Text("Gallery"),
+//                   leading: Icon(
+//                     Icons.account_box,
+//                     color: Colors.blue,
+//                   ),
+//                 ),
+//                 Divider(
+//                   height: 1,
+//                   color: Colors.blue,
+//                 ),
+//                 ListTile(
+//                   onTap: () {
+//                     _openCamera(context);
+//                   },
+//                   title: Text("Camera"),
+//                   leading: Icon(
+//                     Icons.camera,
+//                     color: Colors.blue,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );
+//       });
+// }
+
+// return Card(
+//   margin: const EdgeInsets.symmetric(vertical: 10),
+//   child: ListTile(
+//     dense: false,
+//     leading: Image.network(image['url']),
+//     title: Text(image['uploaded_by']),
+//     subtitle: Text(image['description']),
+//     trailing: IconButton(
+//       onPressed: () => _delete(image['path']),
+//       icon: const Icon(
+//         Icons.delete,
+//         color: Colors.red,
+//       ),
+//     ),
+//   ),
+// );
+//           },
+//         );
+//       }
+
+//       return const Center(
+//         child: CircularProgressIndicator(),
+//       );
+//     },
+//   ),
+// ),
+
+// InkWell(
+//   onTap: () {
+//     _showChoiceDialog(context);
+//   },
+//   child: CircleAvatar(
+//     backgroundColor:
+//         Color(0xffBD00FF).withOpacity(0.2),
+//     radius: 50.0,
+//     child: CircleAvatar(
+//       radius: 48.0,
+//       child: ClipOval(
+//         child: (imageFile == null)
+//             ? Text('Choose Image')
+//             : Image.file(
+//                 File(imageFile!.path),
+//               ),
+//         // : Image.asset('assets/images/my.png')
+
+//         // child: (_image != null)
+//         // ? Image.file(_image)
+//         //:
+//         // child: Image.asset('assets/images/my.png'),
+//       ),
+//       backgroundColor: Colors.white,
+//     ),
+//   ),
+// ),
+
+// Expanded(
+//   child: FutureBuilder(
+//     future: _loadImages(),
+//     builder: (context,
+//         AsyncSnapshot<List<Map<String, dynamic>>>
+//             snapshot) {
+//       if (snapshot.connectionState ==
+//           ConnectionState.done) {
+//         return ListView.builder(
+//           itemCount: snapshot.data?.length ?? 0,
+//           itemBuilder: (context, index) {
+//             final Map<String, dynamic> image =
+//                 snapshot.data![index];
+
+// Future<List<Map<String, dynamic>>> _loadImages() async {
+//   List<Map<String, dynamic>> files = [];
+
+//   final ListResult result = await storage.ref().list();
+//   final List<Reference> allFiles = result.items;
+
+//   await Future.forEach<Reference>(allFiles, (file) async {
+//     final String fileUrl = await file.getDownloadURL();
+//     print(fileUrl);
+//     final FullMetadata fileMeta = await file.getMetadata();
+//     files.add({
+//       "url": fileUrl,
+//       "path": file.fullPath,
+//       "uploaded_by": fileMeta.customMetadata?['uploaded_by'] ?? 'Nobody',
+//       "description":
+//           fileMeta.customMetadata?['description'] ?? 'No description'
+//     });
+//   });
+
+//   return files;
+// }
