@@ -77,6 +77,12 @@ class _CoinListsState extends State<CoinLists> {
     }
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _coins = [];
+  }
+
   Widget _buildList() {
     return _coins.length != 0
         ? RefreshIndicator(

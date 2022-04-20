@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flooter/screens/check.dart';
 import 'package:flooter/screens/coinlist.dart';
+import 'package:flooter/screens/community.dart';
 import 'package:flooter/screens/home.dart';
 import 'package:flooter/screens/profile.dart';
 import 'package:flooter/screens/search.dart';
@@ -46,7 +47,7 @@ class _NavState extends State<Nav> {
                   SlideShow(),
                   CoinLists(),
                   Search(),
-                  Profile()
+                  HomeCommunity()
                 ],
               ),
               bottomNavigationBar: GlassmorphicContainer(

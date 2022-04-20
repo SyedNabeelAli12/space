@@ -43,6 +43,7 @@ dependencies:
   path_provider:
   flutter_image_compress: ^1.0.0
   firebase_app_check:
+  material_design_icons_flutter: ^5.0.6595
 
 dev_dependencies:
   flutter_test:

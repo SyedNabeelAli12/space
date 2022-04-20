@@ -290,6 +290,12 @@
       "languageVersion": "2.13"
     },
     {
+      "name": "material_design_icons_flutter",
+      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/material_design_icons_flutter-5.0.6595",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "meta",
       "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0",
       "packageUri": "lib/",
@@ -434,7 +440,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-04-19T20:21:13.871616Z",
+  "generated": "2022-04-20T20:21:54.287246Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
