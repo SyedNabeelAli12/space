@@ -68,10 +68,10 @@ class _CoinListsState extends State<CoinLists> {
     var result = await http.get(Uri.parse(apiUrl));
 
     if (result.statusCode == 200) {
-      setState(() {
-        _coins = jsonDecode(result.body);
-        print(_coins);
-      });
+      // setState(() {
+      //   _coins = jsonDecode(result.body);
+      //   print(_coins);
+      // });
     } else {
       throw Exception('Unexpected error occured!');
     }

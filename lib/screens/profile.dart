@@ -159,321 +159,324 @@ class _ProfileState extends State<Profile> {
     var auth = FirebaseAuth.instance.currentUser;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: Column(
-            children: [
-              Container(
-                child: _glassWidget(
-                  Container(
-                    width: width * 0.9,
-                    // height: height * 0.250,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: Column(
+              children: [
+                Container(
+                  child: _glassWidget(
+                    Container(
+                      width: width * 0.9,
+                      // height: height * 0.250,
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "My Profile ",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                                new Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextButton(
+                                      onPressed: () async {
+                                        await FirebaseAuth.instance.signOut();
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Login()));
+                                      },
+                                      style: ButtonStyle(
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                    color: Colors.white,
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        20.0))),
+                                      ),
+                                      child: Text(
+                                        "Logout",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w400),
+                                      )),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: height * 0.04,
+                            ),
+                            FutureBuilder<String>(
+                              future:
+                                  getImage(), // a previously-obtained Future<String> or null
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
+                                if (snapshot.hasData) {
+                                  return InkWell(
+                                    onTap: () {
+                                      _upload('camera');
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor:
+                                          Color(0xffBD00FF).withOpacity(0.2),
+                                      radius: 50.0,
+                                      // child: CircleAvatar(
+                                      //   radius: 48.0,
+                                      //   child: ClipOval(
+                                      //       child: (imageurl == '')
+                                      //           ? Text('Choose Image')
+                                      //           : Image.network(imageurl)
+                                      //       // : Text('Choose Image')
+                                      //       // : Image.asset('assets/images/my.png')
+
+                                      //       // child: (_image != null)
+                                      //       // ? Image.file(_image)
+                                      //       //:
+                                      //       // child: Image.asset('assets/images/my.png'),
+                                      //       ),
+                                      //   backgroundColor: Colors.white,
+                                      // ),
+                                      backgroundImage: NetworkImage(imageurl),
+                                    ),
+                                  );
+                                }
+                                return Container(
+                                  child: CircularProgressIndicator(),
+                                );
+
+                                // List<Widget> children;
+                                // if (snapshot.hasData) {
+                                //   children = <Widget>[
+                                //     const Icon(
+                                //       Icons.check_circle_outline,
+                                //       color: Colors.green,
+                                //       size: 60,
+                                //     ),
+                                //     Padding(
+                                //       padding: const EdgeInsets.only(top: 16),
+                                //       child: Text('Result: ${snapshot.data}'),
+                                //     )
+                                //   ];
+                                // } else if (snapshot.hasError) {
+                                //   children = <Widget>[
+                                //     const Icon(
+                                //       Icons.error_outline,
+                                //       color: Colors.red,
+                                //       size: 60,
+                                //     ),
+                                //     Padding(
+                                //       padding: const EdgeInsets.only(top: 16),
+                                //       child: Text('Error: ${snapshot.error}'),
+                                //     )
+                                //   ];
+                                // } else {
+                                //   children = const <Widget>[
+                                //     SizedBox(
+                                //       width: 60,
+                                //       height: 60,
+                                //       child: CircularProgressIndicator(),
+                                //     ),
+                                //     Padding(
+                                //       padding: EdgeInsets.only(top: 16),
+                                //       child: Text('Awaiting result...'),
+                                //     )
+                                //   ];
+                                // }
+                              },
+                            ),
+
+                            // FutureBuilder(,builder: builder)
+                            // InkWell(
+                            //   onTap: () {
+                            //     _upload('camera');
+                            //   },
+                            //   child:
+
+                            // CircleAvatar(
+                            //   backgroundColor:
+                            //       Color(0xffBD00FF).withOpacity(0.2),
+                            //   radius: 50.0,
+                            //   child:
+
+                            //   CircleAvatar(
+                            //     radius: 48.0,
+                            //     child: ClipOval(
+                            //         child: (imageurl == '')
+                            //             ? Text('Choose Image')
+                            //             : Image.network(imageurl)
+                            //         // : Text('Choose Image')
+                            //         // : Image.asset('assets/images/my.png')
+
+                            //         // child: (_image != null)
+                            //         // ? Image.file(_image)
+                            //         //:
+                            //         // child: Image.asset('assets/images/my.png'),
+                            //         ),
+                            //     backgroundColor: Colors.white,
+                            //   ),
+                            // ),
+                            // ),
+                            Container(
+                              width: MediaQuery.of(context).size.width - 100,
+                              child: Text('Email',
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w200),
+                                  textAlign: TextAlign.left),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: TextField(
+                                enabled: false,
+                                controller: emailController,
+                                // obscureText: true,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      // borderSide:
+                                      //     const BorderSide(
+                                      //         color: Colors
+                                      //             .white,
+                                      //         width: 2),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    filled: true,
+                                    hintStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w100),
+                                    hintText: "Email",
+                                    fillColor: Colors.transparent),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 100,
+                                child: Text('Name',
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w200),
+                                    textAlign: TextAlign.left),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: TextField(
+                                controller: nameController,
+                                // enabled: false,
+                                // obscureText: true,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      // borderSide:
+                                      //     const BorderSide(
+                                      //         color: Colors
+                                      //             .white,
+                                      //         width: 2),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    filled: true,
+                                    hintStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w100),
+                                    hintText: "Enter Name",
+                                    fillColor: Colors.transparent),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 100,
+                                child: Text('Phone',
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w200),
+                                    textAlign: TextAlign.left),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: TextField(
+                                controller: phoneController,
+                                // obscureText: true,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      // borderSide:
+                                      //     const BorderSide(
+                                      //         color: Colors
+                                      //             .white,
+                                      //         width: 2),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    filled: true,
+                                    hintStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w100),
+                                    hintText: "Enter Number",
+                                    fillColor: Colors.transparent),
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.05,
+                            ),
+                            TextButton(
+                                onPressed: () async {
+                                  // await FirebaseAuth.instance.signOut();
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => Login()));
+                                  await auth
+                                      ?.updateDisplayName(nameController.text);
+                                  // await auth?.updatePhotoURL(imageurl);
+                                  // await auth?.updatePhoneNumber();
+                                },
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Colors.white, width: 1),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0))),
+                                ),
                                 child: Text(
-                                  "My Profile ",
+                                  "Update Profile",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 22,
                                       fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                              new Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextButton(
-                                    onPressed: () async {
-                                      await FirebaseAuth.instance.signOut();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Login()));
-                                    },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  color: Colors.white,
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0))),
-                                    ),
-                                    child: Text(
-                                      "Logout",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w400),
-                                    )),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.04,
-                          ),
-                          FutureBuilder<String>(
-                            future:
-                                getImage(), // a previously-obtained Future<String> or null
-                            builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
-                              if (snapshot.hasData) {
-                                return InkWell(
-                                  onTap: () {
-                                    _upload('camera');
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor:
-                                        Color(0xffBD00FF).withOpacity(0.2),
-                                    radius: 50.0,
-                                    // child: CircleAvatar(
-                                    //   radius: 48.0,
-                                    //   child: ClipOval(
-                                    //       child: (imageurl == '')
-                                    //           ? Text('Choose Image')
-                                    //           : Image.network(imageurl)
-                                    //       // : Text('Choose Image')
-                                    //       // : Image.asset('assets/images/my.png')
-
-                                    //       // child: (_image != null)
-                                    //       // ? Image.file(_image)
-                                    //       //:
-                                    //       // child: Image.asset('assets/images/my.png'),
-                                    //       ),
-                                    //   backgroundColor: Colors.white,
-                                    // ),
-                                    backgroundImage: NetworkImage(imageurl),
-                                  ),
-                                );
-                              }
-                              return Container(
-                                child: CircularProgressIndicator(),
-                              );
-
-                              // List<Widget> children;
-                              // if (snapshot.hasData) {
-                              //   children = <Widget>[
-                              //     const Icon(
-                              //       Icons.check_circle_outline,
-                              //       color: Colors.green,
-                              //       size: 60,
-                              //     ),
-                              //     Padding(
-                              //       padding: const EdgeInsets.only(top: 16),
-                              //       child: Text('Result: ${snapshot.data}'),
-                              //     )
-                              //   ];
-                              // } else if (snapshot.hasError) {
-                              //   children = <Widget>[
-                              //     const Icon(
-                              //       Icons.error_outline,
-                              //       color: Colors.red,
-                              //       size: 60,
-                              //     ),
-                              //     Padding(
-                              //       padding: const EdgeInsets.only(top: 16),
-                              //       child: Text('Error: ${snapshot.error}'),
-                              //     )
-                              //   ];
-                              // } else {
-                              //   children = const <Widget>[
-                              //     SizedBox(
-                              //       width: 60,
-                              //       height: 60,
-                              //       child: CircularProgressIndicator(),
-                              //     ),
-                              //     Padding(
-                              //       padding: EdgeInsets.only(top: 16),
-                              //       child: Text('Awaiting result...'),
-                              //     )
-                              //   ];
-                              // }
-                            },
-                          ),
-
-                          // FutureBuilder(,builder: builder)
-                          // InkWell(
-                          //   onTap: () {
-                          //     _upload('camera');
-                          //   },
-                          //   child:
-
-                          // CircleAvatar(
-                          //   backgroundColor:
-                          //       Color(0xffBD00FF).withOpacity(0.2),
-                          //   radius: 50.0,
-                          //   child:
-
-                          //   CircleAvatar(
-                          //     radius: 48.0,
-                          //     child: ClipOval(
-                          //         child: (imageurl == '')
-                          //             ? Text('Choose Image')
-                          //             : Image.network(imageurl)
-                          //         // : Text('Choose Image')
-                          //         // : Image.asset('assets/images/my.png')
-
-                          //         // child: (_image != null)
-                          //         // ? Image.file(_image)
-                          //         //:
-                          //         // child: Image.asset('assets/images/my.png'),
-                          //         ),
-                          //     backgroundColor: Colors.white,
-                          //   ),
-                          // ),
-                          // ),
-                          Container(
-                            width: MediaQuery.of(context).size.width - 100,
-                            child: Text('Email',
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w200),
-                                textAlign: TextAlign.left),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: TextField(
-                              enabled: false,
-                              controller: emailController,
-                              // obscureText: true,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    // borderSide:
-                                    //     const BorderSide(
-                                    //         color: Colors
-                                    //             .white,
-                                    //         width: 2),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  filled: true,
-                                  hintStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w100),
-                                  hintText: "Email",
-                                  fillColor: Colors.transparent),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width - 100,
-                              child: Text('Name',
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w200),
-                                  textAlign: TextAlign.left),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: TextField(
-                              controller: nameController,
-                              // enabled: false,
-                              // obscureText: true,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    // borderSide:
-                                    //     const BorderSide(
-                                    //         color: Colors
-                                    //             .white,
-                                    //         width: 2),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  filled: true,
-                                  hintStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w100),
-                                  hintText: "Enter Name",
-                                  fillColor: Colors.transparent),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width - 100,
-                              child: Text('Phone',
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w200),
-                                  textAlign: TextAlign.left),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: TextField(
-                              controller: phoneController,
-                              // obscureText: true,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    // borderSide:
-                                    //     const BorderSide(
-                                    //         color: Colors
-                                    //             .white,
-                                    //         width: 2),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  filled: true,
-                                  hintStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w100),
-                                  hintText: "Enter Number",
-                                  fillColor: Colors.transparent),
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.05,
-                          ),
-                          TextButton(
-                              onPressed: () async {
-                                // await FirebaseAuth.instance.signOut();
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Login()));
-                                await auth
-                                    ?.updateDisplayName(nameController.text);
-                                // await auth?.updatePhotoURL(imageurl);
-                                // await auth?.updatePhoneNumber();
-                              },
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.white, width: 1),
-                                        borderRadius:
-                                            BorderRadius.circular(20.0))),
-                              ),
-                              child: Text(
-                                "Update Profile",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w400),
-                              )),
-                        ],
+                                )),
+                          ],
+                        ),
                       ),
                     ),
+                    height * 0.88,
+                    width * 0.9,
                   ),
-                  height * 0.88,
-                  width * 0.9,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

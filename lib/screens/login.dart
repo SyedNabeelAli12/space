@@ -1,6 +1,9 @@
+// Not Using This Screen
+
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flooter/nav.dart';
+import 'package:flooter/screens/navscreen.dart';
 import 'package:flooter/screens/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -463,9 +466,8 @@ class _LoginState extends State<Login> {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    Nav()));
+                                                            builder: (context) =>
+                                                                NavScreen()));
                                                   },
                                                   style: ButtonStyle(
                                                     shape: MaterialStateProperty

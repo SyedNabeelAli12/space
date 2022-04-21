@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flooter/screens/home.dart';
 import 'package:flooter/screens/login.dart';
+import 'package:flooter/screens/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
@@ -181,7 +182,7 @@ class _SplashState extends State<Splash> {
                                                                     MaterialPageRoute(
                                                                         builder:
                                                                             (context) =>
-                                                                                Login()));
+                                                                                SignIn()));
                                                               },
                                                               child: const Text(
                                                                 'Get Started',
