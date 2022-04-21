@@ -52,7 +52,6 @@ class _HomeCommunityState extends State<HomeCommunity> {
           ],
         ),
         body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
           child: Container(
             child: Column(
               children: [
@@ -69,7 +68,7 @@ class _HomeCommunityState extends State<HomeCommunity> {
                   ),
                 ),
                 Container(
-                  height: height * 0.45,
+                  height: height * 0.78,
                   child: CustomScrollView(slivers: [
                     SliverList(
                         delegate: SliverChildBuilderDelegate(

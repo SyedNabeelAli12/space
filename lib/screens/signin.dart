@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flooter/config/palette.dart';
 import 'package:flooter/nav.dart';
+import 'package:flooter/screens/create_account.dart';
 import 'package:flooter/screens/navscreen.dart';
 import 'package:flooter/screens/signup.dart';
 import 'package:flutter/material.dart';
@@ -68,8 +69,8 @@ class _SignInState extends State<SignIn> {
                       child: Text('Sign In\nConnect With Us',
                           style: TextStyle(
                               fontSize: 28,
-                              color: Palette.facebookBlue,
-                              fontWeight: FontWeight.w300),
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400),
                           textAlign: TextAlign.left),
                     ),
                   ),
@@ -252,7 +253,8 @@ class _SignInState extends State<SignIn> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Signup()));
+                                      builder: (context) =>
+                                          CreateUserAccount()));
                             },
                             style: ButtonStyle(
                               shape: MaterialStateProperty.all(

@@ -90,9 +90,10 @@ class _NotificationsListState extends State<NotificationsList> {
                             ListTile(
                               onTap: () {},
                               leading: CircleAvatar(
+                                  backgroundColor: Colors.grey,
                                   radius: 30,
                                   backgroundImage: NetworkImage(
-                                      'https://image.shutterstock.com/image-vector/notification-icon-vector-material-design-260nw-759841507.jpg')),
+                                      'https://i.pinimg.com/736x/3f/07/35/3f07355294d237d21b7c6f24459cd92b.jpg')),
                               subtitle: Column(
                                 children: [
                                   Row(
