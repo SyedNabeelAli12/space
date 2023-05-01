@@ -45,6 +45,7 @@ dependencies:
   firebase_app_check:
   material_design_icons_flutter: ^5.0.6595
   lottie: ^1.3.0
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:
